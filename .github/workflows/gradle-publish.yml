@@ -37,6 +37,13 @@ jobs:
     - name: Set execute permissions
       run: chmod +x ./gradlew
 
+    - name: Read package version
+      id: get-version
+      run: echo "::set-output name=version::$(grep -oP 'version\s*=\s*"\K[^"]+' build.gradle)
+    
+    - name: Print package version
+      run: echo "Package version is ${{ steps.get-version.outputs.version }}"
+
     - name: Build with Gradle
       run: ./gradlew build
 
@@ -47,3 +54,26 @@ jobs:
       env:
         USERNAME: ${{ github.actor }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Git
+      run: |
+        git config --global user.name "Your Name"
+        git config --global user.email "your.email@example.com"
+
+    - name: Create Git tag
+       run: git tag v${{ steps.get-version.outputs.version }}
+
+    - name: Push Git tag
+      run: git push origin v${{ steps.get-version.outputs.version }}
+
+    - name: Create GitHub release
+      uses: actions/create-release@v1
+      with:
+        tag_name: v1.0.0
+        release_name: Release v${{ steps.get-version.outputs.version }}
+        body: |
+          Release notes for version ${{ steps.get-version.outputs.version }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
