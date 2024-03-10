@@ -24,7 +24,7 @@ public class OpenGraphReader {
         openGraphTags = readOpenGraphTags(uri);
     }
 
-    public String get(String key) {
+    public String getContent(String key) {
         return openGraphTags.get(key);
     }
 
