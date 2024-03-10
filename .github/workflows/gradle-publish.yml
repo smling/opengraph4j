@@ -61,7 +61,7 @@ jobs:
         git config --global user.email "your.email@example.com"
 
     - name: Create Git tag
-       run: git tag v${{ steps.get-version.outputs.version }}
+      run: git tag v${{ steps.get-version.outputs.version }}
 
     - name: Push Git tag
       run: git push origin v${{ steps.get-version.outputs.version }}
