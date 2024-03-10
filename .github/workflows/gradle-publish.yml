@@ -39,7 +39,7 @@ jobs:
 
     - name: Read package version
       id: get-version
-      run: echo "::set-output name=version::$(grep -oP 'version\s*=\s*"\K[^"]+' build.gradle)
+      run: echo "::set-output name=version::$(grep -oP "version\s*=\s*'\K[^']+" build.gradle)
     
     - name: Print package version
       run: echo "Package version is ${{ steps.get-version.outputs.version }}"
