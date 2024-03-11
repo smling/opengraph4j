@@ -62,7 +62,7 @@ jobs:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create GitHub release
-      uses: actions/create-release@v1
+      uses: actions/create-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -70,5 +70,5 @@ jobs:
         release_name: Release v${{ steps.get-version.outputs.version }}
         body: |
           Release notes for version ${{ steps.get-version.outputs.version }}
-          draft: false
-          prerelease: false
+        draft: false
+        prerelease: false
