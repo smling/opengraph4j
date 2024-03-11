@@ -61,8 +61,8 @@ jobs:
         USERNAME: ${{ github.actor }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Create GitHub release
-      uses: actions/create-release@latest
+    - name: Create Git Tag and Release
+      uses: beyond5959/create-release-github@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
