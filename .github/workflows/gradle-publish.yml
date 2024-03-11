@@ -61,23 +61,12 @@ jobs:
         USERNAME: ${{ github.actor }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Set up Git
-      run: |
-        git config --global user.name "Your Name"
-        git config --global user.email "your.email@example.com"
-
-    - name: Create Git tag
-      run: git tag v${{ steps.get-version.outputs.version }}
-
-    - name: Push Git tag
-      run: git push origin v${{ steps.get-version.outputs.version }}
-
     - name: Create GitHub release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v1.0.0
+        tag_name: v${{ steps.get-version.outputs.version }}
         release_name: Release v${{ steps.get-version.outputs.version }}
         body: |
           Release notes for version ${{ steps.get-version.outputs.version }}
