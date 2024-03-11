@@ -32,6 +32,8 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      with:
+        dependency-graph: generate-and-submit
 
       # Set execute permissions for gradlew
     - name: Set execute permissions
@@ -40,12 +42,13 @@ jobs:
     - name: Read package version
       id: get-version
       run: |
-        version=$(grep -oP "version\s*=\s*'[^']+'" build.gradle | grep -oP "[^']*'")
-        version=${version//\'/} # Remove single quotes from the version
-        echo "version=$version"  >> $GITHUB_OUTPUT
+        version=$(grep -oP "version\s*=\s*'[^']+'" build.gradle | grep -oP "[^']*" | tr -d '\n' | tr -d ' ' | tr -d 'version=')
+        echo "::set-output name=version::${version}"
     
     - name: Print package version
-      run: echo "Package version is ${{ steps.get-version.outputs.version }}"
+      run: |
+        echo "Testing current version."
+        echo "Package version is ${{ steps.get-version.outputs.version }}"
 
     - name: Build with Gradle
       run: ./gradlew build
